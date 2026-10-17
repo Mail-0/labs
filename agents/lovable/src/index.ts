@@ -43,7 +43,10 @@ const kit = create({
         kind: 'mcp',
         name: 'lovable',
         vendor: 'lovable',
-        description: "The user's own Lovable account: build, edit, inspect and publish their apps.",
+        description:
+          "Use each person's own Lovable account to build, edit, inspect and preview apps. Each user authorizes their own account; no shared creator credentials.",
+        aliases: ['loveable', 'lovable.dev'],
+        capabilities: ['apps.create', 'apps.edit', 'apps.preview', 'projects.read', 'workspaces.read'],
         endpoint: 'https://mcp.lovable.dev',
         oauth: {
           clientIdSecret: 'LOVABLE_OAUTH_CLIENT_ID',
