@@ -4,11 +4,11 @@ This agent texts you, connects your own Linear account, finds and manages issues
 
 ## How it is wired
 
-Like the [Lovable example](../lovable), this is a self-contained Bun package using `@onkeiki/agents` and `kit.sync()`. It declares a per-user MCP connection, conversation memory, a persistent sandbox, link scraping, loops, attachment processing, and guards. It does not install Lovable's browser or app-building Images capability; all Linear work goes through the MCP connection.
+This self-contained Bun package uses `@onkeiki/agents` and `kit.sync()`. It declares a per-user MCP connection, conversation memory, sandbox tools, link scraping, loops, attachment processing, and guards. Browser and image-generation tools are not enabled. All Linear operations use the personal MCP connection.
 
 Each person authorizes their own Linear account. The agent uses Linear's official Streamable HTTP MCP endpoint, `https://mcp.linear.app/mcp`; it never uses the deployer's Linear account or a shared Linear API key.
 
-Unlike Lovable's pre-registered OAuth client, [Linear supports OAuth dynamic client registration](https://linear.app/docs/mcp). The SDK uses that flow when the MCP connection omits `oauth`, so no `LINEAR_OAUTH_CLIENT_ID`, client secret, or hand-written scope setting is required in this example. Linear advertises `read` and `write` scopes; each person grants access in the provider's authorization flow. The connection's `capabilities` describe intended tasks for discovery, not OAuth permissions. Actual operations remain limited by the person's grant and workspace permissions.
+[Linear supports OAuth dynamic client registration](https://linear.app/docs/mcp). The SDK uses that flow when the MCP connection omits `oauth`, so no `LINEAR_OAUTH_CLIENT_ID`, client secret, or hand-written scope setting is required in this example. Linear advertises `read` and `write` scopes; each person grants access in the provider's authorization flow. The connection's `capabilities` describe intended tasks for discovery, not OAuth permissions. Actual operations remain limited by the person's grant and workspace permissions.
 
 The agent operates in the workspace exposed by that personal connection. Linear requires separate authentication contexts for separate workspaces; this example does not promise workspace switching through a single grant.
 
@@ -16,7 +16,7 @@ The prompt directs the agent to reuse healthy authorization and verified tool co
 
 ### Hosted feature settings
 
-In SDK `0.1.4`, `kit.sync()` sends only managed-feature on/off flags. The nested memory, sandbox, steering, and media values in `src/index.ts` mirror Lovable but are not applied to the hosted agent.
+In SDK `0.1.4`, `kit.sync()` sends only managed-feature on/off flags. The nested memory, sandbox, steering, and media values in `src/index.ts` are not applied to the hosted agent.
 
 ## Setup
 
