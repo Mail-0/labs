@@ -1,10 +1,10 @@
-# Linear
+# Linear Assistant
 
 This agent texts you, connects your own Linear account, finds and manages issues, and summarizes project or cycle progress using real workspace data.
 
 ## How it is wired
 
-Like the [Lovable example](../lovable), this is a self-contained Bun package using `@onkeiki/agents` and `kit.sync()`. It declares a per-user MCP connection, conversation memory, sandbox and browser tools, loops, attachment processing, and guards. It does not install Lovable's app-building Images capability.
+Like the [Lovable example](../lovable), this is a self-contained Bun package using `@onkeiki/agents` and `kit.sync()`. It declares a per-user MCP connection, conversation memory, a persistent sandbox, link scraping, loops, attachment processing, and guards. It does not install Lovable's browser or app-building Images capability; all Linear work goes through the MCP connection.
 
 Each person authorizes their own Linear account. The agent uses Linear's official Streamable HTTP MCP endpoint, `https://mcp.linear.app/mcp`; it never uses the deployer's Linear account or a shared Linear API key.
 
@@ -16,9 +16,7 @@ The prompt directs the agent to reuse healthy authorization and verified tool co
 
 ### Hosted feature settings
 
-In SDK `0.1.4`, `kit.sync()` sends managed-feature on/off flags, not their nested options. The memory provider, sandbox persistence, steering values, and media actions in `src/index.ts` follow Lovable's declaration, but do not override hosted platform settings. Do not assume those specific values were applied by syncing.
-
-Inspect the hosted configuration before relying on non-default behavior. The documented [`/config` API](https://onkeiki.com/docs/cloud-agents.md#developer-rest-api) exposes `steering_config`, which requires an org-wide key and affects every agent on that key. This example does not change those shared settings.
+In SDK `0.1.4`, `kit.sync()` sends only managed-feature on/off flags. The nested memory, sandbox, steering, and media values in `src/index.ts` mirror Lovable but are not applied to the hosted agent.
 
 ## Setup
 
@@ -36,9 +34,9 @@ bun run sync
 
 `bun run sync` creates or updates a real agent in Keiki. After it completes, assign a line to the agent in the Keiki dashboard. No Linear credentials are needed at deployment time: each conversation user receives their own sign-in link, and the agent verifies their account before accessing Linear work.
 
-Optionally set `AGENT_NAME` to change the deployment name. The assistant's conversational identity remains Linear.
+Optionally set `AGENT_NAME` to change the deployment name. The assistant's conversational identity remains Linear Assistant; it never presents itself as Linear.
 
-For an iMessage contact card, optionally set both `CONTACT_CARD_PHONE` and `CONTACT_CARD_LOGO_URL`. Use the agent's assigned line in E.164 format and a public PNG logo URL. The contact-card instructions are included only when both values are set; contact sharing never delays account connection.
+For an iMessage contact card, optionally set both `CONTACT_CARD_PHONE` and `CONTACT_CARD_LOGO_URL`. Use the agent's assigned line in E.164 format and a public PNG logo URL for your own logo, not Linear's. The contact-card instructions are included only when both values are set; contact sharing never delays account connection.
 
 ## Try it
 
@@ -55,6 +53,6 @@ The agent resolves actual teams, workflow states, members, and issue IDs through
 ## Files
 
 - `src/index.ts` declares the agent and syncs it with `kit.sync()`.
-- `src/prompt.ts` contains the Linear workflow and optional contact-card instructions.
+- `src/prompt.ts` contains the Linear Assistant workflow and optional contact-card instructions.
 - `.env.example` lists required and optional environment variables.
 - `package.json`, `bun.lock`, and `tsconfig.json` define the reproducible Bun package and type-check.

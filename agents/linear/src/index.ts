@@ -17,7 +17,7 @@ const contactCard =
 
 const kit = create({
   apiKey,
-  name: env('AGENT_NAME') ?? 'Linear',
+  name: env('AGENT_NAME') ?? 'Linear Assistant',
   agent: {
     model: 'openai/gpt-6.1-sol',
     maxSteps: 40,
@@ -26,7 +26,6 @@ const kit = create({
     systemPrompt: () => linearPrompt(contactCard ? { contactCard } : {}),
     tools: [],
     memory: { enabled: true, provider: 'supermemory' },
-    browser: { enabled: true },
     sandbox: { enabled: true, persistent: true },
     mcp: {
       enabled: true,
@@ -37,7 +36,7 @@ const kit = create({
         description:
           "Use each person's own Linear account to find, create and update issues, organize projects and summarize work. Each user authorizes their own account; no shared creator credentials.",
         aliases: ['linear.app'],
-        capabilities: ['issues.read', 'issues.write', 'projects.read', 'projects.write', 'comments.write', 'cycles.read'],
+        capabilities: ['issues.read', 'issues.write', 'comments.read', 'comments.write', 'projects.read', 'cycles.read'],
         endpoint: 'https://mcp.linear.app/mcp',
       }],
     },
