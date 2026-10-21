@@ -36,8 +36,6 @@ bun run sync
 
 Optionally set `AGENT_NAME` to change the deployment name. The assistant's conversational identity remains Linear Assistant; it never presents itself as Linear.
 
-For an iMessage contact card, optionally set both `CONTACT_CARD_PHONE` and `CONTACT_CARD_LOGO_URL`. Use the agent's assigned line in E.164 format and a public PNG logo URL for your own logo, not Linear's. The contact-card instructions are included only when both values are set; contact sharing never delays account connection.
-
 ## Try it
 
 After connecting your account, try requests such as:
@@ -53,6 +51,6 @@ The agent resolves actual teams, workflow states, members, and issue IDs through
 ## Files
 
 - `src/index.ts` declares the agent and syncs it with `kit.sync()`.
-- `src/prompt.ts` contains the Linear Assistant workflow and optional contact-card instructions.
+- `src/prompt.ts` contains the Linear Assistant workflow.
 - `.env.example` lists required and optional environment variables.
 - `package.json`, `bun.lock`, and `tsconfig.json` define the reproducible Bun package and type-check.

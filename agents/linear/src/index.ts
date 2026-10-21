@@ -8,13 +8,6 @@ if (!apiKey) {
   throw new Error('Missing KEIKI_API_KEY. Set it in agents/linear/.env before syncing.')
 }
 
-const contactCardPhone = env('CONTACT_CARD_PHONE')
-const contactCardLogoUrl = env('CONTACT_CARD_LOGO_URL')
-const contactCard =
-  contactCardPhone && contactCardLogoUrl
-    ? { phone: contactCardPhone, logoUrl: contactCardLogoUrl }
-    : undefined
-
 const kit = create({
   apiKey,
   name: env('AGENT_NAME') ?? 'Linear',
@@ -23,7 +16,7 @@ const kit = create({
     maxSteps: 40,
     historyLimit: 60,
     reasoningEffort: 'low',
-    systemPrompt: () => linearPrompt(contactCard ? { contactCard } : {}),
+    systemPrompt: () => linearPrompt(),
     tools: [],
     memory: { enabled: true, provider: 'supermemory' },
     sandbox: { enabled: true, persistent: true },
