@@ -1,0 +1,16 @@
+{
+  "name": "@labs/linear",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "bun src/index.ts",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@onkeiki/agents": "^0.1.4"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.1",
+    "typescript": "^7.0.2"
+  }
+}
