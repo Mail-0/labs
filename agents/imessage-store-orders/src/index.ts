@@ -26,11 +26,11 @@ const storeName = env('STORE_NAME') ?? domain
 const domainHash = createHash('sha256').update(domain).digest('hex').slice(0, 16)
 const shopify = {
   slug: `shopify-${domain.replaceAll('.', '-').slice(0, 30)}-${domainHash}`,
-  version: '1.0.0',
+  version: '1.1.0',
   title: `${storeName} Storefront`,
   description: `Search ${storeName}'s catalog and policies and manage checkout carts.`,
   runtime: 'mcp',
-  mcp: { url: `https://${domain}/api/mcp`, auth: 'none' },
+  mcp: { url: `https://${domain}/api/ucp/mcp`, auth: 'none' },
 } satisfies CapabilityManifest
 
 const kit = create({
@@ -41,7 +41,7 @@ const kit = create({
     maxSteps: 40,
     historyLimit: 60,
     reasoningEffort: 'low',
-    systemPrompt: () => storeOrdersPrompt(storeName),
+    systemPrompt: () => storeOrdersPrompt(storeName, domain),
     tools: [],
     memory: { enabled: true, provider: 'supermemory' },
     steering: { debounceWindow: '2 seconds', midTurnStrategy: 'interrupt', maxBatch: 5 },
