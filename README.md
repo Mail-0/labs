@@ -13,5 +13,6 @@ Labs is where Mail-0 publishes example agents built with Keiki (https://onkeiki.
 | One Agent Every Channel | [agents/one-agent-every-channel](agents/one-agent-every-channel) |
 | iMessage Customer Support | [agents/imessage-customer-support](agents/imessage-customer-support) |
 | WhatsApp Restaurant Host | [agents/whatsapp-restaurant-host](agents/whatsapp-restaurant-host) |
+| Website to Text | [agents/website-to-text-agent](agents/website-to-text-agent) |
 
 Each example is a self-contained Bun package that declares its agent in code and deploys it with `kit.sync()`.
