@@ -6,7 +6,7 @@ Customers text a business to book, reschedule or cancel an appointment. The agen
 
 The agent declares an inline codemode capability for the **business owner's Cal.com account**. The owner supplies `CAL_API_KEY`, which is synced as a developer secret. Customers never authorize a calendar or provide an API key.
 
-The capability grants HTTP access only to `api.cal.com`. Its prompt documents listing event types, checking slots, creating bookings, looking up an attendee's upcoming bookings, rescheduling and cancelling. The platform supplies `codemode_types` and `codemode_run`; the agent writes requests over the HTTP namespace. These are not six separately implemented tools. Keiki substitutes `{{CAL_API_KEY}}` on the host, without giving the secret to model-written code.
+The capability grants HTTP access only to `api.cal.com`. Its prompt documents listing event types, checking slots, creating bookings, looking up a known attendee booking's current state, rescheduling and cancelling. The platform supplies `codemode_types` and `codemode_run`; the agent writes requests over the HTTP namespace. These are not six separately implemented tools. Keiki substitutes `{{CAL_API_KEY}}` on the host, without giving the secret to model-written code.
 
 Cal.com controls calendar connections, services, availability, buffers and booking rules. `BUSINESS_HOURS` adds prompt guidance; configure matching hours in Cal.com for provider-enforced limits. This example supports standard one-on-one, non-recurring appointments, not seated events, recurring series or payment collection. Prompt instructions are not a deterministic authorization layer: the owner key can access the owner's bookings. For stricter customer identity verification or multi-business use, put an authenticated, customer-scoped booking service in front of Cal.com rather than relying on this example unchanged.
 
@@ -57,7 +57,7 @@ Requests use `Authorization: Bearer {{CAL_API_KEY}}` and endpoint-specific `cal-
 | Reschedule | `POST /v2/bookings/{bookingUid}/reschedule` | `2026-02-25` |
 | Cancel | `POST /v2/bookings/{bookingUid}/cancel` | `2026-02-25` |
 
-Contracts are documented in [Cal.com's v2 reference](https://cal.com/docs/api-reference/v2) and its [OpenAPI document](https://cal.com/docs/api-reference/v2/openapi.json). Booking lookup sends attendee filters to Cal.com; it does not fetch everyone's bookings and filter locally. Empty availability, conflicts, pending requests and provider failures are handled in the agent's instructions, not by a local booking server.
+Contracts are documented in [Cal.com's v2 reference](https://cal.com/docs/api-reference/v2) and its [OpenAPI document](https://cal.com/docs/api-reference/v2/openapi.json). Booking lookup always sends the earlier thread receipt's attendee email and booking UID to Cal.com. It checks upcoming first, then unconfirmed if absent, and cancelled only when reconciling an uncertain cancellation; it stops at the first match. It does not fetch everyone's bookings and filter locally. Empty availability, conflicts, pending requests and provider failures are handled in the agent's instructions, not by a local booking server.
 
 ## Files
 
