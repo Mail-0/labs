@@ -16,5 +16,6 @@ Labs is where Mail-0 publishes example agents built with Keiki (https://onkeiki.
 | Website to Text | [agents/website-to-text-agent](agents/website-to-text-agent) |
 | External Harness Agent | [agents/external-harness-agent](agents/external-harness-agent) |
 | AI SDK agent on iMessage | [agents/ai-sdk-agent-on-imessage](agents/ai-sdk-agent-on-imessage) |
+| Slack Team Brain | [agents/slack-team-brain](agents/slack-team-brain) |
 
 Each example is a self-contained Bun package that declares its agent in code and deploys it with `kit.sync()`.
