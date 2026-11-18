@@ -10,5 +10,6 @@ Labs is where Mail-0 publishes example agents built with Keiki (https://onkeiki.
 | iMessage Appointment Booking | [agents/imessage-appointment-booking](agents/imessage-appointment-booking) |
 | Pocket | [agents/text-first-consumer-app](agents/text-first-consumer-app) |
 | One Agent Every Channel | [agents/one-agent-every-channel](agents/one-agent-every-channel) |
+| iMessage Customer Support | [agents/imessage-customer-support](agents/imessage-customer-support) |
 
 Each example is a self-contained Bun package that declares its agent in code and deploys it with `kit.sync()`.
