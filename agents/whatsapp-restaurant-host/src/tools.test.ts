@@ -73,6 +73,21 @@ describe('shared reservation tools', () => {
     expect(requests.some((r) => r.filter?.phone === 'other-guest')).toBe(true)
   })
 
+  test('returns an existing booking before checking a now-full slot', async () => {
+    await execute(bookTable, booking)
+    const existing = database.host_reservations![0]!
+    database.host_reservations!.push({ ...booking, id: 'other-booking', phone: 'other-guest', party_size: 26, status: 'confirmed' })
+    const writesBeforeRetry = requests.filter((request) => request.method === 'PUT').length
+
+    expect(await execute(bookTable, booking)).toEqual({
+      already_booked: true,
+      reservation: expect.objectContaining({ id: existing.id, party_size: booking.party_size }),
+    })
+    expect(database.host_reservations).toHaveLength(2)
+    expect(requests.filter((request) => request.method === 'PUT')).toHaveLength(writesBeforeRetry)
+    expect(await execute(bookTable, { ...booking, party_size: 5 })).toHaveProperty('error')
+  })
+
   test('counts other guests, re-checks capacity and frees cancelled seats', async () => {
     await execute(bookTable, { ...booking, party_size: 8 })
     await execute(bookTable, { ...booking, party_size: 8 }, 'guest-two')

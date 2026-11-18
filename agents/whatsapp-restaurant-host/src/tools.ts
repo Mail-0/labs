@@ -78,10 +78,10 @@ export const bookTable = defineTool({
   execute: (input, ctx) => run(ctx, async ({ config, store }) => {
     const row: Reservation = { ...input, name: input.name.trim(), notes: input.notes ?? '', id: crypto.randomUUID(), phone: ctx.phone, status: 'confirmed' }
     if (!row.name) throw new Error('Please provide a name for the reservation.')
-    await ensureAvailable(store, config, row)
     const rows = await store.read<Reservation>(RESERVATIONS)
-    const duplicate = rows.find((b) => b.phone === ctx.phone && b.status === 'confirmed' && b.date === row.date && b.time === row.time)
+    const duplicate = rows.find((b) => b.phone === ctx.phone && b.status === 'confirmed' && b.date === row.date && b.time === row.time && b.party_size === row.party_size)
     if (duplicate) return { already_booked: true, reservation: publicReservation(duplicate) }
+    await ensureAvailable(store, config, row)
     await store.replace(RESERVATIONS, [...rows, row], row)
     return { reservation: publicReservation(row), timezone: config.timezone }
   }),
