@@ -12,6 +12,8 @@ The agent uses `search_catalog`/`get_product` to verify live prices and stock, f
 
 ## Setup
 
+After a cart edit, the agent updates the existing checkout or creates a new one from the updated cart. It checks the returned checkout's variant ids and quantities against the confirmed cart before sharing its link; a mismatch is reported without sending the link.
+
 From this directory:
 
 ```sh
