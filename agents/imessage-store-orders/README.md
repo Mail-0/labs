@@ -31,7 +31,7 @@ Use an org-wide Keiki API key to publish the private capability. After syncing, 
 `SHOPIFY_STORE_DOMAIN` is a hostname only, such as `allbirds.com`, without a protocol, port or path. The example environment uses Allbirds as a public test store, not as an affiliation. Check that your store exposes the catalog and cart tools before trying the shopping flow:
 
 ```sh
-curl -X POST "https://$SHOPIFY_STORE_DOMAIN/api/ucp/mcp" \
+curl -X POST "https://<your-store-domain>/api/ucp/mcp" \
   -H 'content-type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
