@@ -8,11 +8,13 @@ The agent declares a full `CapabilityManifest` in `agent.capabilities`, with `ru
 
 The public UCP MCP server needs no Shopify credentials. Calls require `meta: { "ucp-agent": { "profile": "https://<SHOPIFY_STORE_DOMAIN>/.well-known/ucp" } }` plus the tool-specific payload. This example uses the store's public profile for capability negotiation, which Allbirds accepts; it is not an authenticated agent identity or a separately hosted Keiki agent profile. Verify profile compatibility for another store. Conversation memory, steering, guards, prompt guard and media handling are enabled; no browser, sandbox or per-user account connection is declared by this example.
 
+Stores requiring authenticated agent requests (JWT) for catalog or cart operations are not supported by this no-auth example.
+
 The agent uses `search_catalog`/`get_product` to verify live prices and stock, formats integer minor-unit prices in the returned currency, and uses `create_cart`/`update_cart` for the proposed order. It reuses the cart id and calls `create_checkout` with `{ cart_id, line_items: [] }`, then sends the returned buyer-facing `continue_url` unchanged. Missing contact/address details can be completed on that page. It never calls `complete_checkout` or collects payment details. Policies use `ask_business`. It does not call `get_order`, which requires authenticated requests; existing-order questions go to the confirmation email's order status link or store support, with contact details verified through `ask_business`.
 
 ## Setup
 
-After a cart edit, the agent updates the existing checkout or creates a new one from the updated cart. It checks the returned checkout's variant ids and quantities against the confirmed cart before sharing its link; a mismatch is reported without sending the link.
+After a cart edit, the agent updates the existing checkout or creates a new one from the updated cart. It checks the returned checkout's variant ids and quantities against the confirmed cart before sharing its link; a mismatch is reported without sending the link. If checkout creation fails or its URL is still missing after one checkout lookup, it instead sends the latest confirmed cart response's own `continue_url` unchanged; it never uses this fallback to bypass a contents mismatch.
 
 From this directory:
 
