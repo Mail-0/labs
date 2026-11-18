@@ -15,5 +15,6 @@ Labs is where Mail-0 publishes example agents built with Keiki (https://onkeiki.
 | WhatsApp Restaurant Host | [agents/whatsapp-restaurant-host](agents/whatsapp-restaurant-host) |
 | Website to Text | [agents/website-to-text-agent](agents/website-to-text-agent) |
 | External Harness Agent | [agents/external-harness-agent](agents/external-harness-agent) |
+| AI SDK agent on iMessage | [agents/ai-sdk-agent-on-imessage](agents/ai-sdk-agent-on-imessage) |
 
 Each example is a self-contained Bun package that declares its agent in code and deploys it with `kit.sync()`.

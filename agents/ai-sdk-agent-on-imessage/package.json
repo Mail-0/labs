@@ -1,0 +1,23 @@
+{
+  "name": "@labs/ai-sdk-agent-on-imessage",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "bun src/index.ts",
+    "dev": "bun --watch src/server.ts",
+    "start": "bun src/server.ts",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-sdk/mcp": "^2.0.0",
+    "@ai-sdk/openai": "^4.0.121",
+    "@onkeiki/agents": "^0.1.7",
+    "@onkeiki/ai-sdk": "^0.1.8",
+    "ai": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/json-schema": "^7.0.15",
+    "@types/bun": "^1.4.1",
+    "typescript": "^7.0.2"
+  }
+}
