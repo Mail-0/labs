@@ -5,5 +5,6 @@ Labs is where Mail-0 publishes example agents built with Keiki (https://onkeiki.
 | Agent | Example |
 | --- | --- |
 | Lovable | [agents/lovable](agents/lovable) |
+| MCP server on iMessage | [agents/mcp-server-on-imessage](agents/mcp-server-on-imessage) |
 
 Each example is a self-contained Bun package that declares its agent in code and deploys it with `kit.sync()`.
