@@ -8,7 +8,7 @@ The agent declares a full `CapabilityManifest` in `agent.capabilities`, with `ru
 
 The public UCP MCP server needs no Shopify credentials. Calls require `meta: { "ucp-agent": { "profile": "https://<SHOPIFY_STORE_DOMAIN>/.well-known/ucp" } }` plus the tool-specific payload. This example uses the store's public profile for capability negotiation, which Allbirds accepts; it is not an authenticated agent identity or a separately hosted Keiki agent profile. Verify profile compatibility for another store. Conversation memory, steering, guards, prompt guard and media handling are enabled; no browser, sandbox or per-user account connection is declared by this example.
 
-The agent uses `search_catalog`/`get_product` to verify live prices and stock, formats integer minor-unit prices in the returned currency, and uses `create_cart`/`update_cart` for the proposed order. It reuses the cart id and calls `create_checkout` with `{ cart_id, line_items: [] }`, then sends the returned buyer-facing `continue_url` unchanged. Missing contact/address details can be completed on that page. It never calls `complete_checkout` or collects payment details. Policies use `ask_business`; order lookup uses `get_order` only for an id supplied by the shopper and reports only returned information.
+The agent uses `search_catalog`/`get_product` to verify live prices and stock, formats integer minor-unit prices in the returned currency, and uses `create_cart`/`update_cart` for the proposed order. It reuses the cart id and calls `create_checkout` with `{ cart_id, line_items: [] }`, then sends the returned buyer-facing `continue_url` unchanged. Missing contact/address details can be completed on that page. It never calls `complete_checkout` or collects payment details. Policies use `ask_business`. It does not call `get_order`, which requires authenticated requests; existing-order questions go to the confirmation email's order status link or store support, with contact details verified through `ask_business`.
 
 ## Setup
 
@@ -32,7 +32,7 @@ curl -X POST https://allbirds.com/api/ucp/mcp \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 
-Allbirds exposes catalog, cart, checkout, order and business-question tools at this endpoint. Tool schemas specify required metadata and named payloads. For example, a catalog request uses `{"meta":{"ucp-agent":{"profile":"https://allbirds.com/.well-known/ucp"}},"catalog":{"query":"running shoes","filters":{"available":true},"pagination":{"limit":3}}}` as the `search_catalog` arguments. Creating a checkout is not a purchase: the shopper must open `continue_url` and pay on Shopify's page.
+Allbirds exposes catalog, cart, checkout and business-question tools used by this example at this endpoint; its authenticated order lookup is not used. Tool schemas specify required metadata and named payloads. For example, a catalog request uses `{"meta":{"ucp-agent":{"profile":"https://allbirds.com/.well-known/ucp"}},"catalog":{"query":"running shoes","filters":{"available":true},"pagination":{"limit":3}}}` as the `search_catalog` arguments. Creating a checkout is not a purchase: the shopper must open `continue_url` and pay on Shopify's page.
 
 Optional environment variables:
 
