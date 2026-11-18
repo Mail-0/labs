@@ -14,6 +14,9 @@ const openrouter = createOpenAI({
 
 const handler = createKeikiHandler({
   onTurn: async ({ turn, instructions, messages, tools, prepareStep, abortSignal }) => {
+    if (Bun.env.KEIKI_AGENT_ID && turn.agentId !== Bun.env.KEIKI_AGENT_ID) {
+      throw new Error('Dispatch is for a different Keiki agent.')
+    }
     console.info('Verified Keiki turn', turn.turnId)
     return streamText({
       model: openrouter.chat(Bun.env.OPENROUTER_MODEL ?? 'openai/gpt-4.1-mini'),

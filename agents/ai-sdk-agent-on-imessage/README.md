@@ -8,7 +8,7 @@ Get your agent live with customers, today. Bring your own Vercel AI SDK 7 agent 
 
 `createKeikiHandler` verifies Keiki's signed dispatch, acknowledges it with 202, and runs the turn asynchronously. The handler supplies instructions and history, loads Keiki tools with `await tools()`, and uses `prepareStep` and `abortSignal` for arrivals and cancellation. Replies and completion flow back to Keiki for channel delivery and tracing. Configure MCP connections in Keiki to make their tools available to this loop.
 
-By default, dispatch verification uses Keiki's public signing keys; you do not need a signing secret. Provider credentials stay in your server and are not synced to Keiki. Keep the server running after it acknowledges a dispatch; a request-scoped serverless function needs a lifecycle hook such as `waitUntil` instead.
+By default, dispatch verification uses Keiki's public signing keys, which authenticate Keiki but do not restrict dispatches to your agent. Provider credentials stay in your server and are not synced to Keiki. Keep the server running after it acknowledges a dispatch; a request-scoped serverless function needs a lifecycle hook such as `waitUntil` instead.
 
 ## Setup
 
@@ -32,6 +32,8 @@ Set `HARNESS_URL` in `.env` to the full tunnel URL plus `/keiki/turn`, then:
 ```sh
 bun run sync
 ```
+
+For production, set `KEIKI_AGENT_ID` to the ID printed by sync and generate an external harness signing secret in the Keiki dashboard. Set it as `KEIKI_SIGNING_SECRET`, then restart the server. The handler reads the secret automatically and accepts only that agent's signed dispatches; the ID check also rejects other agents before tools or model calls, reporting the turn as failed.
 
 Assign an iMessage line to the agent in the [Keiki dashboard](https://onkeiki.com), then text that line. You can also use the dashboard's Live Test to exercise the loop without a line. A verified dispatch prints `Verified Keiki turn` in your server terminal; inspect the turn trace in Keiki for delivery or model errors.
 
