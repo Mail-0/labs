@@ -1,6 +1,6 @@
 import { createOpenAI } from '@ai-sdk/openai'
 import { createKeikiHandler } from '@onkeiki/ai-sdk'
-import { streamText } from 'ai'
+import { isStepCount, streamText } from 'ai'
 import { systemPrompt } from './prompt.js'
 
 if (!Bun.env.OPENROUTER_API_KEY) {
@@ -20,6 +20,7 @@ const handler = createKeikiHandler({
       instructions: [systemPrompt, instructions].filter(Boolean).join('\n\n'),
       messages,
       tools: await tools(),
+      stopWhen: isStepCount(10),
       prepareStep,
       abortSignal,
     })
