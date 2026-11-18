@@ -42,7 +42,7 @@ After syncing, assign an iMessage line to the agent in the [Keiki dashboard](htt
 | `BUSINESS_HOURS` | Human-readable hours; defaults to `Monday-Friday, 9am-5pm`. Match Cal.com's availability. |
 | `KEIKI_PLATFORM_URL` | Optional SDK platform URL override; defaults to `https://onkeiki.com`. |
 
-The agent collects name, service, preferred time, email and phone. For later changes it uses a receipt established in the same thread, or asks for booking confirmation details. Knowing an email alone is not treated as proof of ownership. Do not deploy with sensitive services without reviewing your customer-verification requirements.
+The agent collects name, service, preferred time, email and phone. It may reschedule or cancel only a booking whose receipt was established earlier in the same thread. Customer-supplied email addresses, UIDs or confirmation details are not proof of ownership; without that earlier receipt, it refers the customer to the business and modifies nothing. Do not deploy with sensitive services without reviewing your customer-verification requirements.
 
 ## Cal.com API versions
 
