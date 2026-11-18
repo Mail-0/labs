@@ -7,6 +7,10 @@ if (!Bun.env.OPENROUTER_API_KEY) {
   throw new Error('Set OPENROUTER_API_KEY in .env before starting the server.')
 }
 
+if (!Bun.env.KEIKI_SIGNING_SECRET) {
+  throw new Error('Set KEIKI_SIGNING_SECRET in .env before starting the server.')
+}
+
 const openrouter = createOpenAI({
   apiKey: Bun.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1',
