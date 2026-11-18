@@ -1,0 +1,22 @@
+{
+  "name": "@labs/external-harness-agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "bun src/index.ts",
+    "start": "bun src/server.ts",
+    "lint": "oxlint src",
+    "check-types": "tsc --noEmit",
+    "test": "bun test",
+    "smoke": "bun test src/server.test.ts"
+  },
+  "dependencies": {
+    "@onkeiki/agents": "0.1.7",
+    "@onkeiki/channels": "0.1.6"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.1",
+    "oxlint": "^1.0.0",
+    "typescript": "^7.0.2"
+  }
+}
