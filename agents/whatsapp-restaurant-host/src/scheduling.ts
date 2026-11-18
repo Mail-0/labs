@@ -102,7 +102,7 @@ export function availability(date: string, time: string | undefined, party: numb
   const today = localNow(config.timezone, now)
   const target = time === undefined ? undefined : minutes(time)
   return slots(date, config)
-    .filter((slot) => (date > today.date || (date === today.date && slot > today.time)) && hasCapacity(bookings.filter((b) => b.time === slot).map((b) => b.party_size), party, config.capacity))
+    .filter((slot) => (date > today.date || (date === today.date && slot > today.time)) && hasCapacity(bookings.filter((b) => minutes(b.time) < minutes(slot) + config.slotMinutes && minutes(b.time) + config.slotMinutes > minutes(slot)).map((b) => b.party_size), party, config.capacity))
     .sort((a, b) => target === undefined ? a.localeCompare(b) : Math.abs(minutes(a) - target) - Math.abs(minutes(b) - target) || a.localeCompare(b))
 }
 

@@ -59,6 +59,15 @@ describe('availability and quotes', () => {
     expect(availability('2030-01-01', '18:15', 2, bookings, config, now)).toEqual(['20:00'])
   })
 
+  test('counts overlapping stored sittings after the slot grid changes, excluding touching boundaries', () => {
+    const changed = { ...config, openingHours: 'daily 17:30-22:30', slotMinutes: 60 }
+    const bookings = [{ time: '18:00', party_size: 28 }]
+    expect(availability('2030-01-02', undefined, 3, bookings, changed, now)).toEqual(['19:30', '20:30', '21:30'])
+    expect(availability('2030-01-02', undefined, 2, bookings, changed, now)).toEqual(['17:30', '18:30', '19:30', '20:30', '21:30'])
+    const touching = [{ time: '16:30', party_size: 30 }, { time: '18:30', party_size: 30 }]
+    expect(availability('2030-01-02', undefined, 3, touching, changed, now)).toEqual(['17:30', '19:30', '20:30', '21:30'])
+  })
+
   test('sorts near requested time, rejects past slots and returns empty for full or past days', () => {
     expect(availability('2030-01-02', '19:50', 2, [], config, now)).toEqual(['20:00', '18:30', '17:00'])
     expect(availability('2030-01-01', undefined, 2, [], config, now)).toEqual(['18:30', '20:00'])
