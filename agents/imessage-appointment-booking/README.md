@@ -13,7 +13,7 @@ Cal.com controls calendar connections, services, availability, buffers and booki
 ## Setup
 
 1. In the business owner's [Cal.com account](https://app.cal.com), connect the business calendar, select calendars to check for conflicts and where bookings should be created, and set availability and timezone.
-2. Create an event type for each service, with its duration, location, hours, buffers and booking fields. Start with standard one-on-one, non-recurring event types. Enable email verification if required by the business; the agent must collect its real code, not bypass it.
+2. Create an event type for each service, with its duration, location, hours, buffers and booking fields. Start with standard one-on-one, non-recurring event types. If email verification is enabled, the agent asks permission to send a code, requests it through Cal.com, collects the received code and includes it in the create or reschedule request. It never bypasses verification; rescheduling still requires an earlier same-thread receipt.
 3. Generate an owner API key under [Cal.com Settings → Developer → API keys](https://app.cal.com/settings/developer/api-keys). Check that the account/plan permits the API operations you need.
 4. From this directory:
 
@@ -56,6 +56,7 @@ Requests use `Authorization: Bearer {{CAL_API_KEY}}` and endpoint-specific `cal-
 | Attendee bookings | `GET /v2/bookings` | `2026-05-01` |
 | Reschedule | `POST /v2/bookings/{bookingUid}/reschedule` | `2026-02-25` |
 | Cancel | `POST /v2/bookings/{bookingUid}/cancel` | `2026-02-25` |
+| Send verification code | `POST /v2/bookings/verification/email/send-code` | No version header documented; omitted |
 
 Contracts are documented in [Cal.com's v2 reference](https://cal.com/docs/api-reference/v2) and its [OpenAPI document](https://cal.com/docs/api-reference/v2/openapi.json). Booking lookup always sends the earlier thread receipt's attendee email and booking UID to Cal.com. It checks upcoming first, then unconfirmed if absent, and cancelled only when reconciling an uncertain cancellation; it stops at the first match. It does not fetch everyone's bookings and filter locally. Empty availability, conflicts, pending requests and provider failures are handled in the agent's instructions, not by a local booking server.
 
