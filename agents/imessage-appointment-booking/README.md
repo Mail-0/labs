@@ -30,6 +30,8 @@ Use an org-wide Keiki API key so the SDK can sync the developer secret. Sync pub
 
 After syncing, assign an iMessage line to the agent in the [Keiki dashboard](https://onkeiki.com). No local server needs to stay running. Try a booking, then reschedule and cancel that same booking from the same thread. Live sync and bookings change real accounts; type-checking does not test a calendar connection.
 
+Reschedule availability requests include the existing booking UID and its original duration in minutes. The agent preserves that length instead of falling back to a service's default duration.
+
 ## Configuration
 
 | Variable | Purpose |
